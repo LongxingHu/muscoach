@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: muscoach-front-end
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: muscoach-front-end
+  template:
+    metadata:
+      labels:
+        app: muscoach-front-end
+    spec:
+      containers: 
+      - name: muscoach-front-end
+        image: "longcat123/muscoach-front-end:1.0.9"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: muscoach-front-end
+spec:
+  selector:
+    app: muscoach-front-end
+  type: LoadBalancer   # 修改类型为LoadBalancer
+  ports:
+    - protocol: TCP
+      name: main-port
+      port: 8080
+      targetPort: 8080

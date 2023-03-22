@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netease-music-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: netease-music-api
+  template:
+    metadata:
+      labels:
+        app: netease-music-api
+    spec:
+      containers: 
+      - name: netease-music-api
+        image: "longcat123/netease-music-api:1.0.0"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 3000
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: netease-music-api
+spec:
+  selector:
+    app: netease-music-api
+  type: LoadBalancer   # 修改类型为LoadBalancer
+  ports:
+    - protocol: TCP
+      name: netease-port
+      port: 3000
+      targetPort: 3000
+

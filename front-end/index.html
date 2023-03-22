@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MusCoach</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="https://s2.loli.net/2023/03/11/48uQFAgeLlK7j9z.jpg" type="image/png" sizes="24x24">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wavesurfer.js@6.4.0/dist/wavesurfer.min.js"></script>
+
+    <style>
+
+        html,
+        body {
+            height: 100%;
+            position: fixed;
+        }
+        .header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+        }
+
+        .footer {
+            position: fixed;
+            width: 50%;
+            left: 0;
+            right: 0;
+            bottom: 30px;
+        }
+    
+    </style>
+      
+
+      
+</head>
+<body>
+
+    
+
+    
+
+
+	<div class="htmleaf-container">
+        <!--
+		<header class="htmleaf-header bgcolor-11">
+			<h1>基于HTML5 canvas和Web Audio的音频播放器插件 <span>Navigable waveform built on Web Audio and Canvas</span></h1>
+			<div class="htmleaf-links">
+				<a class="htmleaf-icon icon-htmleaf-home-outline" href="http://www.htmleaf.com/" title="jQuery之家" target="_blank"><span> jQuery之家</span></a>
+				<a class="htmleaf-icon icon-htmleaf-arrow-forward-outline" href="http://www.htmleaf.com/html5/yinpinheshipin/201503151524.html" title="返回下载页" target="_blank"><span> 返回下载页</span></a>
+			</div>
+		</header>
+        -->
+
+        <div id="app">
+            
+            <nav class="navbar navbar-expand-lg header" style="background-color: #2857b1;">
+                <!-- <a href="#"><img src="/media/icon.png" alt="Logo" style="height: 50px; top: 0; margin-left: 10px;"></a> -->
+                <a href="#"><img src="https://s2.loli.net/2023/03/11/48uQFAgeLlK7j9z.jpg" alt="Logo" style="height: 50px; top: 0; margin-left: 20px;"></a>
+                <a href="#"><img src="https://s2.loli.net/2023/03/11/48uQFAgeLlK7j9z.jpg" alt="Logo" style="height: 50px; top: 0;"></a>
+                <a href="#"><img src="https://s2.loli.net/2023/03/11/48uQFAgeLlK7j9z.jpg" alt="Logo" style="height: 50px; top: 0;"></a>
+                <a href="#"><img src="https://s2.loli.net/2023/03/11/48uQFAgeLlK7j9z.jpg" alt="Logo" style="height: 50px; top: 0;"></a>
+                <a href="#"><img src="https://s2.loli.net/2023/03/11/48uQFAgeLlK7j9z.jpg" alt="Logo" style="height: 50px; top: 0;"></a>
+                <a href="#"><img src="https://s2.loli.net/2023/03/11/48uQFAgeLlK7j9z.jpg" alt="Logo" style="height: 50px; top: 0;"></a>
+                <a href="#"><img src="https://s2.loli.net/2023/03/11/48uQFAgeLlK7j9z.jpg" alt="Logo" style="height: 50px; top: 0;"></a>
+                <a href="#"><img src="https://s2.loli.net/2023/03/11/48uQFAgeLlK7j9z.jpg" alt="Logo" style="height: 50px; top: 0;"></a>
+                <a href="#"><img src="https://s2.loli.net/2023/03/11/48uQFAgeLlK7j9z.jpg" alt="Logo" style="height: 50px; top: 0;"></a>
+            
+                <div style="width: 250px;"></div>
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#" style="color:bisque; font-size: larger; font-family: Georgia, 'Times New Roman', Times, serif;">{{songName}}</a>
+                        </li>
+
+                        </ul>
+                        <form class="d-flex" role="search" v-on:submit.prevent>
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" v-model="input" v-on:input="input = $event.target.value" v-on:keyup.enter="search">
+                        <button class="btn btn-outline-success" type="submit" v-on:click="search">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+
+            <div style="height: 70px;"></div>       <!--这个也不能删-->
+            <div style="width: 18%; top:70px; position: fixed; height:380px; overflow-y: scroll;">
+                <!-- <div class="list-group">
+                    <button  class="list-group-item list-group-item-action active" aria-current="true">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h7 class="mb-1"></h7>
+                        <small></small>
+                      </div>
+                    </button>
+                  </div> -->
+
+                  <div class="list-group">
+                    <!-- <button v-for="(song, index) in songNames" :key="index"
+                        class="list-group-item list-group-item-action"
+                        :class="{'active': index === selectedSongIndex}"
+                        aria-current="true" 
+                        @click="clickplay(songUrls[index], index)">
+                      <div class="d-flex w-100 justify-content-between"> 
+                        <h7 class="mb-1">{{song}}</h7>
+                        <h10>{{authors[index]}}</h10>
+                      </div>
+                    </button> -->
+
+                    <button v-for="(id, index) in ids"
+                        class="list-group-item list-group-item-action"
+                        :class="{'active': index === selectedSongIndex}"
+                        aria-current="true" 
+                        @click="clickplay(index)"
+                        style="background-color: transparent;">
+                      <div class="d-flex w-100 justify-content-between" style="color: bisque;"> 
+                        <h6 class="mb-1">{{songNames[index]}}</h6>
+                        <small>{{authors[index]}}</small>
+                      </div>
+                    </button>
+                  </div>
+            </div>
+
+            <img :src="picUrl" style="width: 18%; object-fit: cover; bottom: 0; position: fixed;">
+            
+        
+            <div class="container" style="height: 100%; margin-left: 210px; margin-right: 100px;">
+                <img src="https://s2.loli.net/2023/03/11/z85HsTrMiJLtx7y.png" style="
+                    position: fixed; /* 确保图片定位相对于这个容器 */
+                    width: 100%; /* 设置容器宽度 */
+                    height: 100%; /* 设置容器高度 */
+                    top: 0;
+                    left: 0;
+                    filter: blur(20px);
+                    z-index: -1;
+                  ">
+                <div class="row" style="right: 5%;">
+                    <div class="col-md-6" style="text-align: left; white-space: pre-wrap; color: aliceblue;">
+                            <div style="height: 450px; overflow-y: scroll; width: 500px; margin-left: 50px;">
+                                {{lyrics}}
+                            </div>
+                    </div>  
+                    <div class="col-md-6" style="text-align: left; white-space: pre-wrap; color: aliceblue;">
+                        <div v-if="analysis===''" style="text-align: left;">
+                            <a style="text-align: center; color:bisque; font-size: larger; font-family: Georgia, 'Times New Roman', Times, serif;"> ChatGPT正在处理中(请勿更换歌曲).......</a>
+                        </div>
+
+                        <div v-else-if="analysis==='none'"></div>
+                        <div v-else style="height: 450px; overflow-y: scroll; max-width: 30em; word-wrap: break-word;">
+                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                            <a style="color:bisque; font-size: larger; font-family: Georgia, 'Times New Roman', Times, serif;">GPT歌词解析成功</a>
+                            {{analysis}}
+                        </div>
+                    </div>             
+                </div>
+            </div>
+
+            <div style="height:200px;"></div>  <!--这个不能删-->
+            
+            <div class=" container footer">
+                <div id="demo">
+                    <div id="waveform">
+                        <!-- <div class="progress progress-striped active" id="progress-bar">
+                            <div class="progress-bar progress-bar-info"></div>
+                        </div> -->
+
+                        <!-- Here be the waveform -->
+                    </div>
+
+                    <div class="controls" style="margin-left: 100px;">
+                        <button v-on:click="backward" class="btn btn-primary" style=" margin-right: 5px">
+                            Backward
+                        </button>
+                        <button v-on:click="pauseplay" class="btn btn-primary"  style=" margin-right: 5px">   
+                            Play
+                            /
+                            <i class="glyphicon glyphicon-pause"></i>
+                            Pause
+                        </button>
+                        
+                        <button v-on:click="forward" class="btn btn-primary" style=" margin-right: 5px">
+                            Forward
+                        </button>
+                        
+                        <button v-on:click="toggleMute" class="btn btn-primary" style=" margin-right: 5px">
+                            Mute
+                            /
+                            <i class="glyphicon glyphicon-pause"></i>
+                            UnMute
+                        </button>
+                    </div>
+                </div>
+            </div>
+	    </div>
+    </div>
+	
+	
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.min.js"></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    input: '',
+                    songName: '',
+                    lyrics: '',
+                    analysis:'none',
+                    picUrl: 'http:\/\/p4.music.126.net/TonV0MwwK8sz5_uN34cVuw==/18910500486270081.jpg',
+                    songUrl:'',
+                    wavesurfer:null,
+                    songUrls: [
+                    'http:\/\/m7.music.126.net/20230314134219/6630394fd0c87886d270727fe5674472/ymusic/d1ba/c0a9/3fd4/78dbbc5171a3d7e65a863fd032c1df40.mp3',
+                    'http:\/\/m8.music.126.net/20230314134609/f996afbc318341883d6085e77720bcd3/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/13270194971/40a2/2c55/c625/74a60861cdf2b938d3846595f38fbd00.mp3'
+                    ],
+                    authors: ['Higher Brothers', 'kanye west'],
+                    songNames: ['Isabellae', 'Praise God'],
+                    counter: 0,
+                    ids: [480579331, 1873876994],
+                    selectedSongIndex:0,
+                }
+            },
+            
+            mounted() {
+                this.wavesurfer = WaveSurfer.create({
+                                            container: '#waveform',
+                                            waveColor: 'violet',
+                                            progressColor: 'purple',
+                                            barHeight: 0.5,
+                                        });
+
+                                        this.wavesurfer.on('ready', function () {
+                                            wavesurfer.play();
+                                        });
+                // const myAudio = new Audio('https://music.163.com/song/media/outer/url?id=480579331.mp3');
+                // myAudio.crossOrigin = 'anonymous';
+                // this.wavesurfer.load(myAudio);
+                //this.wavesurfer.load("https://music.163.com/song/media/outer/url?id=480579331.mp3"); // 加载默认歌曲
+                // this.wavesurfer.play();
+                console.log("mounted")
+            },
+
+
+            methods: {
+                search() {
+                    console.log(this.input)
+                    console.log("http:\/\/localhost:3000/cloudsearch?keywords="+this.input)
+                    fetch("http:\/\/localhost:3000/cloudsearch?keywords="+this.input)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.code==200){
+                            //显示前十首歌曲，并循环查找能免费收听的歌曲
+                            this.counter = 0
+                            //每次search之前都要初始化
+                            this.songNames = []
+                            this.authors = []
+                            this.songUrls = []
+                            this.ids = []
+                            for (let i=0;i<data.result.songs.length;i++){    
+                                if ((data.result.songs[i].fee==0 || data.result.songs[i].fee==8) && this.counter<20){
+                                    this.counter++
+                                    this.songName = data.result.songs[i].name
+                                    console.log("第"+this.counter+"首歌："+ this.songName)
+                                    this.songNames.push(this.songName)
+                                    
+                                    this.ids.push(data.result.songs[i].id) 
+                                    //获取歌手名字
+                                    this.author = data.result.songs[i].ar[0].name
+                                    this.authors.push(this.author)
+
+                                    //获取歌曲封面url
+                                    if(this.counter == 1){
+                                        fetch("http:\/\/localhost:3000/song/detail?ids="+data.result.songs[i].id)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            this.picUrl = data.songs[0].al.picUrl
+                                            console.log("get picUrl")
+                                        })
+                                    }
+                                    
+
+                                    
+                                    
+
+                                    //使用songurl请求过多会报403错误，下面是使用163的api获取歌曲url，但使用这个url播放会有跨域问题，未解决
+                                    // if (this.counter==1) {
+                                    //     this.songUrl = "https://music.163.com/song/media/outer/url?id="+data.result.songs[0].id+".mp3"
+                                    //     console.log(this.songUrl)
+                                    //     this.wavesurfer.stop(); // 停止当前歌曲的播放
+                                    //     this.wavesurfer.load(this.songUrl); // 加载新的歌曲
+                                    //     //this.wavesurfer.skipBackward();
+                                    //     //this.wavesurfer.play(); // 播放新的歌曲
+                                    //     console.log("play");
+                                    // }
+                                    // this.songUrls.push("https://music.163.com/song/media/outer/url?id="+data.result.songs[i].id+".mp3");
+                                    // console.log("get songUrl" + this.counter)
+                                }
+                            }
+                            //this.wavesurfer.stop(); // 停止当前歌曲的播放
+                            
+                            console.log(this.songNames)
+                            console.log(this.ids)
+                            console.log("-------------")
+
+                            for (let j = 0; j < this.ids.length; j ++){
+                                //获取歌曲url
+                                fetch("http:\/\/localhost:3000/song/url?id="+this.ids[j])
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log("第"+ j + "首歌的url："+ data.data[0].url)
+                                        this.songUrls[j] = data.data[0].url
+                                        //console.log(this.ids[j])
+                                    })
+                            }
+                            console.log(this.songUrls)
+
+                        }
+                    })
+
+                },
+
+                clickplay(index) {
+                    console.log("clicked: " + this.songUrls[index])
+                    this.selectedSongIndex = index;
+                    this.wavesurfer.stop();
+                    this.wavesurfer.load(this.songUrls[index]); // 加载新的歌曲
+                    //this.wavesurfer.play();
+
+                    //获取歌曲的歌词
+                    this.analysis = ''
+                    fetch("http:\/\/localhost:3000/lyric?id="+this.ids[index])
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.code==200){
+                            this.lyrics = data.lrc.lyric
+                            console.log("get lyrics")
+                            //将歌词传递给back-end，后端接入openai逐句分析歌词
+                            const payload = {
+                                lyrics: this.lyrics,
+                            } 
+
+                            const headers = new Headers();
+                            headers.append("Content-Type", "application/json");
+
+                            const body = {
+                                method: "POST",
+                                body: JSON.stringify(payload),
+                                headers: headers,
+                            }
+
+                            console.log("this is body: " + body)
+                            
+
+                            fetch("http:\/\/localhost:8081", body)
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data);
+                                this.analysis = data.message
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            }) 
+                            console.log("posted lyrics")
+                        }
+            
+                    })
+                    
+                    //更新歌词封面
+                    fetch("http:\/\/localhost:3000/song/detail?ids="+this.ids[index])
+                    .then(response => response.json())
+                    .then(data => {
+                        this.picUrl = data.songs[0].al.picUrl
+                        console.log("updata picUrl")
+                    })
+
+                    this.songName = this.songNames[index]
+
+                    
+                    
+  
+                },
+                
+                pauseplay() {
+
+                    console.log("pauseplay")
+                    this.wavesurfer.playPause();
+                },
+
+                forward() {
+                    console.log("forward")
+                    this.wavesurfer.skipForward();
+                },
+
+                backward() {
+                    console.log("backward")
+                    this.wavesurfer.skipBackward();
+                },
+
+                toggleMute() {
+                    console.log("toggleMute")
+                    this.wavesurfer.toggleMute();
+                },
+
+                unmute() {
+                    console.log("unmute")
+                    this.wavesurfer.toggleMute();
+                },
+            },
+
+
+        }).mount('#app')
+    </script>
+    
+</body>
+</html>

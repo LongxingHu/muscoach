@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "front-end"
+		},
+		{
+			"path": "project"
+		},
+		{
+			"path": "back-end"
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5501,
+		"liveServer.settings.multiRootWorkspaceName": "project"
+	}
+}
